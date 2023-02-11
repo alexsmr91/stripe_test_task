@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from stripe_test_task.views import ItemView, BuyView, SuccessView, CancelView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("item/<int:pk>/", ItemView.as_view(), name="item"),
+    path("buy/<int:pk>/", BuyView.as_view(), name="buy"),
+    path("success/", SuccessView.as_view(), name="success"),
+    path("cancel/", CancelView.as_view(), name="cancel"),
 ]
