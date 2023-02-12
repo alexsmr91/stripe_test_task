@@ -8,7 +8,7 @@ services:
     volumes:
       - .:/usr/src/stripe_test_task
     env_file:
-      - ./.env
+      - ./.env.dev
     logging:
       options:
         max-size: "1m"
