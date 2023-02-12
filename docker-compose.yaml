@@ -1,28 +1,29 @@
-version: '3'
+version: '3.7'
 services:
   web:
-    build: .
-    command: python3 manage.py runserver
     depends_on:
       - postgres
+    build: .
+    command: python3 main/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/stripe_test_task
-    environment:
-      STRIPE_API_KEY: "sk_test_51MaN7mCFMtaIIRBSoYqAc0Wn8HmlnK2lTGNppELKfDNiipZ1dtdQSKw8H6noKOKtU0hHGOWSabwpDqWpy5lmVE4N00tXVNqEVb"
+    env_file:
+      - ./.env
     logging:
       options:
         max-size: "1m"
         max-file: "1"
+    ports:
+      - "8000:8000"
     restart: always
   postgres:
     image: postgres:13.3
-    environment:
-      POSTGRES_DB: "db"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "123456"
-      PGDATA: "/home/user/postgresqldata/pgdata"
     volumes:
-          - .:/home/user/postgresqldata
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: strip_db
     ports:
       - "5432:5432"
     logging:
@@ -30,3 +31,7 @@ services:
         max-size: "1m"
         max-file: "1"
     restart: always
+
+volumes:
+  postgres_data:
+    

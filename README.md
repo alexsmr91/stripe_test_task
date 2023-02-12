@@ -10,3 +10,12 @@ GET /item/{id}, c помощью которого можно получить п
 Залить решение на Github, описать запуск в Readme.md
 Опубликовать свое решение чтобы его можно было быстро и легко протестировать. 
 Решения доступные только в виде кода на Github получат низкий приоритет при проверке.
+
+
+How to run project:
+
+cd to dir with docker files
+sudo docker-compose up -d --build
+sudo docker-compose exec web python main/manage.py makemigrations
+sudo docker-compose exec web python main/manage.py migrate
+sudo docker-compose exec web python main/manage.py createsuperuser

@@ -21,15 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=mo*=hks6)esq8_gzr7_1m@#%%md4i%x@n#o0l_n5%#g(21px2'
-
-
-STRIPE_API_KEY = os.getenv('STRIPE_API_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = int(os.environ.get("DEBUG", default=0))
+SECRET_KEY = os.environ.get("SECRET_KEY")
+STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY')
 
-ALLOWED_HOSTS = ["dikov.dev", "localhost", "127.0.0.1", "46.249.49.57"]
+ALLOWED_HOSTS = str(os.environ.get("ALLOWED_HOSTS", "localhost")).split(" ")
 
 
 # Application definition
@@ -78,21 +75,14 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
