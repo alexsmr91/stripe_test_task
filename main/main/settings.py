@@ -26,7 +26,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY')
 
-ALLOWED_HOSTS = str(os.environ.get("ALLOWED_HOSTS", "localhost")).split(" ")
+ALLOWED_HOSTS = str(os.environ.get("ALLOWED_HOSTS", "127.0.0.1 localhost")).split(" ")
 
 
 # Application definition

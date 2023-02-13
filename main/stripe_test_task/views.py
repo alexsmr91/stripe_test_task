@@ -1,9 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import TemplateView, View
 from django.shortcuts import get_object_or_404
-from .models import Item
 from main.settings import STRIPE_API_KEY
+from .models import Item
 import stripe
 
 
@@ -21,6 +20,7 @@ class BuyView(View):
     def get(self, request, *args, **kwargs):
         item = get_object_or_404(Item, pk=kwargs['pk'])
         stripe.api_key = STRIPE_API_KEY
+        url = f'{request.scheme}://{request.get_host()}/'
         session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {
@@ -34,8 +34,8 @@ class BuyView(View):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='http://127.0.0.1:8000/success/',
-            cancel_url='http://127.0.0.1:8000/cancel/',
+            success_url=f'{url}success/',
+            cancel_url=f'{url}cancel/',
         )
 
         return JsonResponse({'id': session.id})
